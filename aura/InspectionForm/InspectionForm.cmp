@@ -1,0 +1,10 @@
+<aura:component implements="force:lightningQuickAction,force:hasRecordId" >
+    <c:form recordId="{!v.recordId}" typeName="Opportunity" onpdfGenerated="{!c.handlequickAction}"/>
+    <!--<lightning:recordEditForm recordId="{!v.recordId}" objectApiName="Opportunity" onsuccess="{!c.handleSuccess}">
+        <lightning:messages />
+        <lightning:outputField fieldName="Name" />
+        <lightning:inputField fieldName="Cross_Slide_Stroke__c" />
+        
+        <lightning:button class="slds-m-top_small" variant="brand" type="submit" name="update" label="Update" />
+    </lightning:recordEditForm>-->
+</aura:component>

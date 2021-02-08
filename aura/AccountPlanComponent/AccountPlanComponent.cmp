@@ -1,0 +1,162 @@
+<aura:component controller="AccountPlanController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="recordId" type="String" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="AccPlanAct" type="Account_Plan_Activity__c[]" />
+    
+    <div class="body_content">
+        <div style="background: white;">
+            <div class="slds-text-heading_small" style="margin: 5px;font-weight:bold; border-bottom:1px solid #ccc;font-size: 16px;padding-bottom: 6px">Account Plan</div>
+            <div class="slds-grid" style="margin: 10px;">
+                <div class="slds-col" style="width: 50%;">
+                    
+                    <div class="slds-grid">
+                        <div class="slds-col" style="width: 50%;">
+                            <div class="slds-text-heading_small"> 
+                                Customer Grade 
+                            </div>
+                        </div>
+                        <div class="slds-col" style="width: 50%;">
+                            Gold
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col" style="width: 50%;">
+                    <div class="slds-grid">
+                        <div class="slds-col" style="width: 50%;">
+                            <div class="slds-text-heading_small"> 
+                                Annual Relationship Value 
+                            </div>
+                        </div>
+                        <div class="slds-col" style="width: 50%;">
+                            Rs 5 Crores
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-grid" style="margin: 10px;">
+                <div class="slds-col" style="width: 50%;">
+                    
+                    <div class="slds-grid">
+                        <div class="slds-col" style="width: 50%;">
+                            <div class="slds-text-heading_small"> 
+                                Current year Target Sales
+                            </div>
+                        </div>
+                        <div class="slds-col" style="width: 50%;">
+                            Rs. 6 Crores
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col" style="width: 50%;">
+                    <div class="slds-grid">
+                        <div class="slds-col" style="width: 50%;">
+                            <div class="slds-text-heading_small"> 
+                                Actual Sales to date
+                            </div>
+                        </div>
+                        <div class="slds-col" style="width: 50%;">
+                            Rs. 4.3 Crores
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-grid" style="margin: 10px;">
+                <div class="slds-col" style="width: 50%;">
+                    
+                    <div class="slds-grid">
+                        <div class="slds-col" style="width: 50%;">
+                            <div class="slds-text-heading_small"> 
+                                Target Activities 
+                            </div>
+                        </div>
+                        <div class="slds-col" style="width: 50%;">
+                            10
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col" style="width: 50%;">
+                    <div class="slds-grid">
+                        <div class="slds-col" style="width: 50%;">
+                            <div class="slds-text-heading_small"> 
+                                Activities to date 
+                            </div>
+                        </div>
+                        <div class="slds-col" style="width: 50%;">
+                            5
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            
+            <lightning:button variant="brand" label="New" onclick="{! c.handleAddAccPlan }" class="marginClass"/>
+            <lightning:button variant="brand" label="Save" onclick="{! c.handleSaveAccPlan }" class="marginClass"/>
+            <table class="slds-table slds-table_bordered slds-table_resizable-cols slds-table_fixed-layout" role="grid" style="width: 98%;margin: auto;">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" aria-label="Name" scope="col">
+                            <span class="slds-truncate" >Activity</span>
+                        </th>
+                        <th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" aria-label="Name" scope="col">
+                            <span class="slds-truncate" >Planned Date</span>
+                        </th>
+                        <th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" aria-label="Name" scope="col">
+                            <span class="slds-truncate" >Actual Date</span>
+                        </th>
+                        <th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps" aria-label="Name" scope="col">
+                            <span class="slds-truncate" >Status</span>
+                        </th>
+                        <th>
+                            
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.AccPlanAct}" var="acPlan">
+                        <aura:if isTrue="{!equals(acPlan.InEditMode__c,false)}">
+                            <tr class="slds-hint-parent">
+                                <td role="gridcell">
+                                    <div class="slds-truncate" >{!acPlan.Name}</div>
+                                </td>
+                                <td role="gridcell">
+                                    <div class="slds-truncate" >{!acPlan.Planned_Date__c}</div>
+                                </td>
+                                <td role="gridcell">
+                                    <div class="slds-truncate" >{!acPlan.Actual_Date__c}</div>
+                                </td>
+                                <td role="gridcell">
+                                    <div class="slds-truncate" >{!acPlan.Status__c}</div>
+                                </td>
+                                <td role="gridcell">
+                                    <lightning:button variant="brand" value="{!acPlan}" label="Edit" onclick="{! c.handleEditAccPlan }" />
+                                </td>
+                            </tr>
+                            <aura:set attribute="else">
+                                <tr class="slds-hint-parent">
+                                    <td role="gridcell">
+                                        <ui:inputText value="{!acPlan.Name}" required="true"/>
+                                    </td>
+                                    <td role="gridcell">
+                                        <ui:inputDate aura:id="dateField" value="{!acPlan.Planned_Date__c}" displayDatePicker="true"/>
+                                    </td>
+                                    <td role="gridcell">
+                                        <ui:inputDate aura:id="dateField" value="{!acPlan.Actual_Date__c}" displayDatePicker="true"/>
+                                    </td>
+                                    <td role="gridcell">
+                                        <lightning:select name="selectItem" value="{!acPlan.Status__c}">
+                                            <option value="Not Started">Not Started</option>
+                                            <option value="In Progress">In Progress</option>
+                                            <option value="Completed">Completed</option>
+                                        </lightning:select>
+                                    </td>
+                                    <td role="gridcell">
+                                    </td>
+                                </tr>
+                            </aura:set>
+                        </aura:if>
+                    </aura:iteration>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</aura:component>

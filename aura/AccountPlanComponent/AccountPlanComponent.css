@@ -1,0 +1,17 @@
+.THIS .slds-form-element__label{
+    display: none;
+}
+
+.THIS .marginClass{
+    margin: 10px;
+}
+
+.THIS.body_content{
+    background:white;
+    padding:10px;
+}
+
+.THIS .slds-text-heading_small, .THIS .slds-text-heading--small {
+    font-size: 13px;
+    line-height: 1.25;
+}

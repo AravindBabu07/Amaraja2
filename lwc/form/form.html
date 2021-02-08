@@ -1,0 +1,221 @@
+<template>
+    <c-toast-message title="Success" message={message} variant="success" auto-close="true">
+    </c-toast-message>
+    <lightning-card>
+        <img src="https://www.murugappa.com/wp-content/uploads/2015/10/m_wendt.jpg" slot="title"></img>
+        <div class={showSpinner}>
+            <lightning-spinner alternative-text="Loading" size="large" variant="brand"></lightning-spinner>
+        </div>
+        <lightning-button label="Save" variant="brand" slot="footer" onclick={handleSave}></lightning-button>
+        <lightning-button class="slds-m-left_xx-small" label="Save PDF" variant="brand" slot="footer" onclick={handleGeneratePDF}></lightning-button>
+        <lightning-button class="slds-m-left_xx-small" label="Save PDF & Email" variant="brand" slot="footer" onclick={handleGeneratePDFSendEmail}></lightning-button>
+       
+        <lightning-record-view-form variant="compact" record-id={recordId} object-api-name={typeName}
+            onload={handleOnLoad}>
+            <!-- <div class="slds-form" role="list">
+                <div class="slds-form__row">
+                    <div class="slds-form__item" role="listitem">
+                        <div
+                            class="slds-form-element slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                            <span class="slds-form-element__label">
+                                Account
+                            </span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">{accountName}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-form__item" role="listitem">
+                        <div
+                            class="slds-form-element slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                            <span class="slds-form-element__label">
+                                Delivery Location
+                            </span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">Telangana</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-form__item" role="listitem">
+                        <div
+                            class="slds-form-element slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                            <span class="slds-form-element__label">
+                                Delivery Due Date
+                            </span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">{deliveryDate}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-form__item" role="listitem">
+                        <div
+                            class="slds-form-element slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                            <span class="slds-form-element__label">
+                                Product
+                            </span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">Pr Name</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-form__item" role="listitem">
+                        <div
+                            class="slds-form-element slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                            <span class="slds-form-element__label">
+                                Machine Serial Number
+                            </span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">
+                                    {machineSr}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-form__item" role="listitem">
+                        <div
+                            class="slds-form-element slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                            <span class="slds-form-element__label">
+                                Inspection Date
+                            </span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">
+                                    {inspectionDate}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+
+            <ul>
+                <li class="forceHighlightsMobileListRecordItem">
+                    <div
+                        class="lineItem highlights-form-element highlights-form-element_readonly slds-hint-parent slds-p-horizontal_small slds-grid">
+                        <span class="highlights-form-element__label slds-size_1-of-3 highlightsNoHyphens"
+                            title="Account Name">
+                            Account Name
+                        </span>
+                        <div class="fieldValue highlights-form-element__control slds-size_2-of-3">
+                            <div class="slds-wrap highlights-form-element__static highlightsNoHyphens">
+                                <lightning-output-field field-name="AccountId" variant="label-hidden">
+                                </lightning-output-field>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="forceHighlightsMobileListRecordItem">
+                    <div
+                        class="lineItem highlights-form-element highlights-form-element_readonly slds-hint-parent slds-p-horizontal_small slds-grid">
+                        <span class="highlights-form-element__label slds-size_1-of-3 highlightsNoHyphens"
+                            title="Delivery Due Date">
+                            Inspection Date
+                        </span>
+                        <div class="fieldValue highlights-form-element__control slds-size_2-of-3">
+                            <div class="slds-wrap highlights-form-element__static highlightsNoHyphens">
+                                <lightning-output-field field-name="Inspection_Date__c" variant="label-hidden">
+                                </lightning-output-field>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="forceHighlightsMobileListRecordItem">
+                    <div
+                        class="lineItem highlights-form-element highlights-form-element_readonly slds-hint-parent slds-p-horizontal_small slds-grid">
+                        <span class="highlights-form-element__label slds-size_1-of-3 highlightsNoHyphens"
+                            title="Delivery Due Date">
+                            Delivery Due Date
+                        </span>
+                        <div class="fieldValue highlights-form-element__control slds-size_2-of-3">
+                            <div class="slds-wrap highlights-form-element__static highlightsNoHyphens">
+                                <lightning-output-field field-name="Expected_Delivery_Date__c" variant="label-hidden">
+                                </lightning-output-field>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="forceHighlightsMobileListRecordItem">
+                    <div
+                        class="lineItem highlights-form-element highlights-form-element_readonly slds-hint-parent slds-p-horizontal_small slds-grid">
+                        <span class="highlights-form-element__label slds-size_1-of-3 highlightsNoHyphens"
+                            title="Machine Serial Number">
+                            Machine Serial Number
+                        </span>
+                        <div class="fieldValue highlights-form-element__control slds-size_2-of-3">
+                            <div class="slds-wrap highlights-form-element__static highlightsNoHyphens">
+                                <lightning-output-field field-name="Machine_Serial_Number__c" variant="label-hidden">
+                                </lightning-output-field>
+
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="forceHighlightsMobileListRecordItem">
+                    <div
+                        class="lineItem highlights-form-element highlights-form-element_readonly slds-hint-parent slds-p-horizontal_small slds-grid">
+                        <span class="highlights-form-element__label slds-size_1-of-3 highlightsNoHyphens"
+                            title="Products">
+                            Products
+                        </span>
+                        <div class="fieldValue highlights-form-element__control slds-size_2-of-3">
+                            <div class="slds-wrap highlights-form-element__static highlightsNoHyphens">
+                                <lightning-output-field field-name="Products__c" variant="label-hidden">
+                                </lightning-output-field>
+
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="forceHighlightsMobileListRecordItem">
+                    <div
+                        class="lineItem highlights-form-element highlights-form-element_readonly slds-hint-parent slds-p-horizontal_small slds-grid">
+                        <span class="highlights-form-element__label slds-size_1-of-3 highlightsNoHyphens"
+                            title="Shipping City">
+                            Shipping City
+                        </span>
+                        <div class="fieldValue highlights-form-element__control slds-size_2-of-3">
+                            <div class="slds-wrap highlights-form-element__static highlightsNoHyphens">
+                                <lightning-output-field field-name="Shipping_City__c" variant="label-hidden">
+                                </lightning-output-field>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </lightning-record-view-form>
+        <lightning-record-edit-form record-id={recordId} object-api-name="Opportunity" onload={handleOnLoad}
+            onsuccess={handleSuccess}>
+
+            <template for:each={sections} for:item="section" for:index="indexVar">
+                <lightning-card key={section.key} title={section.key}>
+                    <lightning-layout multiple-rows="true">
+                        <template for:each={section.value} for:item="fieldName">
+                            <lightning-layout-item key={fieldName} padding="horizontal-small">
+                                <lightning-input-field field-name={fieldName}></lightning-input-field>
+                            </lightning-layout-item>
+                        </template>
+                    </lightning-layout>
+                </lightning-card>
+                <div class="slds-border_bottom" key={section.key}></div>
+            </template>
+            <lightning-card title="Upload Photo">
+                <div class="slds-p-left_medium">
+                    <lightning-file-upload record-id={recordId} multiple onuploadfinished={handleUploadFinished}>
+                    </lightning-file-upload>
+                </div>
+            </lightning-card>
+            <div class="slds-border_bottom"></div>
+            <lightning-layout horizontal-align="space">
+                <lightning-layout-item flexibility="auto">
+                    <lightning-input-field class="observation-css" field-name="Inspection_Observations__c">
+                    </lightning-input-field>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" padding="horizontal-small">
+                    <label class="slds-form-element__label">Signature</label>
+                    <div class=" slds-box">
+                        <c-signature-pad></c-signature-pad>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-record-edit-form>
+    </lightning-card>
+</template>

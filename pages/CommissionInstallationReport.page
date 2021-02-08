@@ -1,0 +1,252 @@
+<apex:page standardcontroller="WorkOrder" extensions="CommisionInstallationReportController" sidebar="false" standardstylesheets="false" showHeader="false" applyBodyTag="false" applyHtmlTag="false" action="{!actionMethod}">
+    <HTML>
+        <HEAD>
+            <TITLE>Commission Installation Report</TITLE>
+            <STYLE type="text/css">
+                body{
+                	font-family:Sans-Serif;
+                }
+                table{
+                  margin-top:20px;
+                  width:100%
+                  border:none;
+                }
+                td,tr{
+                	border:none;
+                }
+                .field-value{
+                
+                background-color:#46474a;
+                	color:white;
+                }
+                .field-label{
+                	background-color:#012473;
+                	color:white;
+                }
+                .section{
+                	background-color:#eb5f33;
+                	font-weight:bold;
+                /*color:white;*/
+                }
+                header{
+                	background-color:#dfe9fe;
+                }
+            </STYLE>
+        </HEAD>
+        <BODY>
+            <div class="container">
+                <header>
+                    <table style="width:100%;background-color:#dfe9fe;">
+                        <tr>
+                            <td>
+                                <img src="{!$Resource.Wendt}"></img>
+                    </td>
+                    
+                    <td>
+                        <h2>Installation Commission Report</h2> 
+                    </td>
+                </tr>
+            </table> 
+        </header>
+        <table style="width:100%;">
+            <tr>
+                <td class="field-label">
+                    Customer
+                </td>
+                
+                <td class="field-value">
+                    {!workOrder.Account.Name}
+                </td>
+                <td>
+                    
+                </td>
+                
+                <td class="field-label">
+                    Prepared By
+                </td>
+                <td class="field-value">
+                    {!workOrder.Createdby.Name}
+                </td>
+            </tr>
+            <tr>
+                <td class="field-label">
+                    Work Order #
+                </td>
+                
+                <td class="field-value">
+                    {!workOrder.WorkOrderNumber}
+                </td>
+                <td>
+                    
+                </td>
+                
+                <td class="field-label">
+                    Prepared On
+                </td>
+                <td class="field-value">
+                    <apex:outputText value="{0,date,dd/MM/yyyy}">
+                        <apex:param value="{!workOrder.createdDate}"/>
+                    </apex:outputText>
+                </td>
+            </tr>
+        </table>
+        <table style="width:100%;margin-top:20px;">
+            <tr class="section">
+                <td colspan="5">
+                    Asset Details
+                </td>
+            </tr>
+            <tr>
+                <td class="field-label">
+                    Product
+                </td>
+                
+                <td class="field-value">
+                    {!workOrder.Asset.Name}
+                </td>
+                <td>
+                    
+                </td>
+                
+                <td class="field-label">
+                    Machine SR. #
+                </td>
+                <td class="field-value">
+                    {!workOrder.Asset.SerialNumber}
+                </td>
+            </tr>
+            <tr>
+                <td class="field-label">
+                    Installation Location
+                </td>
+                
+                <td class="field-value">
+                    {!workOrder.Asset.Location.Name}
+                </td>
+                <td>
+                    
+                </td>
+                
+                <td class="field-label">
+                    Warranty Expiry Date
+                </td>
+                <td class="field-value">
+                    <apex:outputText value="{0,date,dd/MM/yyyy}">
+                        <apex:param value="{!workOrder.Asset.Warranty_Expiry_Date__c}"/>
+                    </apex:outputText>
+                </td>
+            </tr>
+        </table>
+        
+        <table style="width:100%;margin-top:20px;">
+            <tr class="section">
+                <td colspan="5">
+                    Installation Commission History
+                </td>
+            </tr>
+            <tr>
+                <td class="field-label">
+                    Activity
+                </td>
+                
+                <td class="field-label">
+                    Completion Date
+                </td>
+                <td>
+                    
+                </td>
+                
+            </tr>
+            <tr>
+                <apex:repeat value="{!childWOlist}" var="workorder" >
+                <tr>
+                    <td>
+                        {!workorder.WorkType.Name }
+                    </td>
+                    
+                    <td><apex:outputText value="{0,date,dd/MM/yyyy}">
+                        <apex:param value="{!workorder.LastModifiedDate}"/>
+                        </apex:outputText></td>
+            </tr>
+            </apex:repeat>
+            </tr>
+        </table>
+        
+        
+        
+        
+        <table style="width:100%">
+            <tr class="section">
+                <td colspan="5">
+                   Parts Consumed
+                </td>
+            </tr>
+            <tr>
+                <td class="field-label">
+                    Product Code
+                </td> 
+                <td class="field-label">
+                    Description
+                </td>
+                <td class="field-label">
+                    Quantity Consumed
+                </td> <td class="field-label">
+                    Unit Price
+                </td>
+                
+            </tr>
+            <apex:repeat value="{!productConsumedList}" var="pc" >
+                <tr>
+                    <td>
+                        {!pc.ProductConsumedNumber}
+                    </td>
+                    <td>
+                        {!pc.Description}
+                    </td>
+                    <td>
+                        {!pc.QuantityConsumed}
+                    </td>
+                    <td>
+                        {!pc.UnitPrice}
+                    </td>
+            </tr>
+            </apex:repeat>
+            
+        </table>
+        <table style="width:100%">
+            <tr class="section">
+                <td colspan="5">
+                  Customer Acknowledgement
+                </td>
+            </tr>
+            <tr cellpadding="5">
+                <td><b>Observations</b></td>
+                <td></td>
+                <td><b>Customer Signature</b></td>
+                
+            </tr>
+            <tr cellpadding="5">
+                <td style="border:1px solid;">{!workOrder.observations__c}</td>
+                <td></td>
+                <td><img src="{!$Resource.samplesignature}"></img></td>
+            </tr>
+        </table>
+		<table style="width:50%">
+            
+            <tr>
+                <td class="field-label">Signed By</td>
+                <td class="field-value">{!workorder.contact.name}</td>
+            </tr>
+    		<tr>
+                <td class="field-label">Date</td>
+                <td class="field-value"><apex:outputText value="{0,date,dd/MM/yyyy}">
+                        <apex:param value="{!workorder.enddate}"/>
+                    </apex:outputText></td>
+            </tr>
+</table>
+    </div>
+    
+</BODY>
+</HTML>
+
+</apex:page>

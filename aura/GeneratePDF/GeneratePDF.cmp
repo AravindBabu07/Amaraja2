@@ -1,0 +1,18 @@
+<aura:component implements="force:lightningQuickAction,force:hasRecordId" controller="SendAttachmentHandler">
+    <aura:attribute name="woRecord" type="Object"/>
+    <aura:attribute name="recordLoadError" type="String"/>
+    <aura:attribute name="showSpinner" type="boolean" default="true"/>
+    <aura:attribute name="Message" type="String" default="Please wait while PDF is getting generated..."/>
+    <force:recordData aura:id="recordLoader"
+                      recordId="{!v.recordId}"
+                      fields="Id,ContactId"
+                      targetFields="{!v.woRecord}"
+                      targetError="{!v.recordLoadError}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      />
+    <aura:if isTrue="{! v.showSpinner }">
+        <lightning:spinner alternativeText="Loading" />
+    </aura:if>
+    
+    <div class="slds-text-heading_medium">{!v.Message}</div>
+</aura:component>

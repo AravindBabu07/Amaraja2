@@ -1,0 +1,169 @@
+<apex:page standardcontroller="Opportunity" extensions="GeneratePDFController" sidebar="false" standardstylesheets="false" showHeader="false" applyBodyTag="false" applyHtmlTag="false">
+    
+    <HTML>
+        <HEAD>
+            <TITLE>Pre-Dispatch Inspection Report</TITLE>
+            <STYLE type="text/css">
+                body{
+                	font-family:Sans-Serif;
+                }
+                table{
+                  margin-top:20px;
+                  width:100%
+                  border:none;
+                }
+                td,tr{
+                	border:none;
+                }
+                .field-value{
+                
+                background-color:#46474a;
+                	color:white;
+                }
+                .tablerow{
+                
+                }
+                .field-label{
+                	background-color:#012473;
+                	color:white;
+                }
+                .section{
+                	background-color:#eb5f33;
+                	font-weight:bold;
+                /*color:white;*/
+                }
+                header{
+                	background-color:#dfe9fe;
+                }
+                
+            </STYLE>
+        </HEAD>
+        <BODY>
+            
+            <div class="container">
+                <header>
+                    <table style="width:100%;background-color:#dfe9fe;">
+                        <tr>
+                            <td>
+                                <img src="{!$Resource.Wendt}"></img>
+                    		</td>
+                    
+                        <td>
+                            <h2>Pre-Dispatch Inspection</h2> 
+                        </td>
+                		</tr>
+            		</table> 
+        		</header>
+        
+         
+        
+        <table style="width:80%;margin-left:10%;margin-right:10%">
+            <tr>
+            <td style="width:20%" class="field-label">
+                <dl>
+                    <dt>Account</dt>
+                    <dt>Delivery Location</dt> 
+                    <dt>Delivery Due Date</dt>
+                </dl>
+                
+            </td>
+                <td style="width:20%" class="field-value">
+                    <dl>
+                        <dt>{!Opportunity.Account.Name}&nbsp;</dt>
+                        <dt>{!Opportunity.Shipping_City__c}&nbsp;</dt>
+                        
+                		<dt><apex:outputText value="{0,date,dd/MM/yyyy}">
+                        <apex:param value="{!Opportunity.Expected_Delivery_Date__c }"/>
+                    </apex:outputText>&nbsp;</dt>
+                       
+                    </dl>
+                </td> 
+                <td style="width:20%" class="field-label">
+                    <dl>
+                        <dt>Machine</dt>
+                        <dt>Inspection Date</dt>
+                        <dt>Product</dt>
+                    </dl>
+                </td>
+            	<td style="width:20%" class="field-value">
+                    <dl>
+                        <dt>{!Opportunity.Machine_Serial_Number__c}&nbsp;</dt>
+                        
+                        <dt><apex:outputText value="{0,date,dd/MM/yyyy}">
+                        <apex:param value="{!Opportunity.Inspection_Date__c}"/>
+                   	    </apex:outputText>&nbsp;</dt>
+                        <dt>{!Opportunity.Products__c }&nbsp;</dt>
+                    </dl>
+                </td>
+            </tr>
+        </table>
+        <table style="width:60%;margin-left:20%;margin-right:20%">
+            
+        
+        <tr>
+            
+                <apex:repeat value="{!sectionFieldsMap}" var="section">
+                 
+                    <tr class="section" style="margin-top:20px;">
+                        <td colspan="4">
+                           {!section}  
+                        </td>
+                    </tr>
+                    <tr>
+                    <apex:repeat value="{!sectionFieldsMap[section]}" var="fieldname">
+                       
+                      <!-- <td colspan="2" class="field-value">{!Opportunity[fieldname]}-->
+                        
+                        <td style="margin:20px;">
+                            <apex:outputPanel rendered="{!if(Opportunity[fieldname],false,true)}">
+                                <apex:outputText style="font-style:italic" value="{!fieldLabels[fieldname]}"/><br/>
+                             <!--   <input type="checkbox" id="check" checked="true"/><br/>
+                            <img src="/img/checkbox_unchecked.gif"/> -->
+                                <img style="width:20px;" src="{!$Resource.checkboxunchecked}"/>
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!if(Opportunity[fieldname],true,false)}">
+                                <apex:outputText style="font-style:italic" value="{!fieldLabels[fieldname]}"/><br/>
+                              
+                                <img style="width:20px;" src="{!$Resource.checkboxchecked}"/>
+                            </apex:outputPanel>
+                            
+                            
+                        </td>
+                        
+                    </apex:repeat>
+                   </tr>
+                
+                
+        		</apex:repeat>
+             
+            </tr>
+   
+            
+           
+        
+    </table>
+		<table style="width:60%;margin-left:20%;margin-right:20%">
+            <tr class="section">
+                <td colspan="5">
+                  Customer Acknowledgement
+                </td>
+            </tr>
+            <tr cellpadding="4">
+                <td colspan="2"><b>Observations</b></td>
+                <td></td>
+                <td colspan="2"><b>Customer Signature</b></td>
+                
+            </tr>
+            <tr cellpadding="4">
+                <td colspan="2" style="border:1px solid;margin-left:25%;">{!Opportunity.Inspection_Observations__c }</td>
+                <td></td>
+                <td colspan="2" ><img style="border:1px solid black;margin-left:25%;" src="{!$Resource.siganturePDF}"></img></td>
+            </tr>
+        </table>
+        
+    </div>
+    
+	</BODY>
+	</HTML>
+
+</apex:page>
