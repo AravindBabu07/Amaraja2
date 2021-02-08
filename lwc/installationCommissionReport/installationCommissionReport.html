@@ -1,0 +1,25 @@
+<template>
+    <lightning-card>
+        <c-toast-message title="Success" message="Saved Successfully." variant="success" auto-close="true">
+        </c-toast-message>
+        <img src="https://www.murugappa.com/wp-content/uploads/2015/10/m_wendt.jpg" slot="title"></img>
+        <div class={showSpinner}>
+            <lightning-spinner alternative-text="Loading" size="large" variant="brand"></lightning-spinner>
+        </div>
+        <lightning-button label="Save" variant="brand" slot="actions" onclick={handleSave}></lightning-button>
+        <lightning-record-edit-form record-id={recordId} object-api-name="WorkOrder" onsuccess={handleSuccess}
+            onload={handleOnLoad}>
+            <lightning-layout>
+                <lightning-layout-item flexibility="auto">
+                    <lightning-input-field class="observation-css" field-name="Observations__c"></lightning-input-field>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto,no-grow">
+                    <label class="slds-form-element__label">Signature</label>
+                    <div class=" slds-box">
+                        <c-signature-pad></c-signature-pad>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-record-edit-form>
+    </lightning-card>
+</template>
